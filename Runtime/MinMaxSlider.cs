@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -204,47 +204,48 @@ namespace Min_Max_Slider
 			}
 		}
 
-		public void OnDrag(PointerEventData eventData)
-		{
-			if (passDragEvents)
-			{
-				PassDragEvents<IDragHandler>(x => x.OnDrag(eventData));
-			}
-			else if (minHandle && maxHandle)
-			{
-				RectTransformUtility.ScreenPointToLocalPointInRectangle(sliderBounds, eventData.position, isOverlayCanvas ? null : mainCamera, out Vector2 clickPosition);
+        public void OnDrag(PointerEventData eventData)
+        {
+            if (passDragEvents)
+            {
+                PassDragEvents<IDragHandler>(x => x.OnDrag(eventData));
+            }
+            else if (minHandle && maxHandle)
+            {
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(sliderBounds, eventData.position, isOverlayCanvas ? null : mainCamera, out Vector2 clickPosition);
 
-				SetSliderAnchors();
+                SetSliderAnchors();
 
-				if (handleType == HandleType.Both)
-				{
-					float distancePercent = (clickPosition.x - dragStartPosition.x) / sliderBounds.rect.width;
-					SetMinHandleValue01(minHandle, dragStartMinValue01 + distancePercent);
-					SetMaxHandleValue01(maxHandle, dragStartMaxValue01 + distancePercent);
-				}
-				else
-				{
-					float dragPosition01 = GetValueOfPointInSliderBounds01(clickPosition);
-					float minHandleValue = GetMinHandleValue01(minHandle);
-					float maxHandleValue = GetMaxHandleValue01(maxHandle);
+                if (handleType == HandleType.Min)
+                {
+                    float distancePercent = (clickPosition.x - dragStartPosition.x) / sliderBounds.rect.width;
+                    float newMinValue01 = Mathf.Clamp(dragStartMinValue01 + distancePercent, 0f, 1f);
+                    float newMaxValue01 = Mathf.Clamp(dragStartMaxValue01, newMinValue01, 1f);
 
-					if (handleType == HandleType.Min)
-						SetMinHandleValue01(minHandle, Mathf.Clamp(dragPosition01, 0, maxHandleValue));
-					else if (handleType == HandleType.Max)
-						SetMaxHandleValue01(maxHandle, Mathf.Clamp(dragPosition01, minHandleValue, 1));
-				}
+                    SetMinHandleValue01(minHandle, newMinValue01);
+                    SetMaxHandleValue01(maxHandle, newMaxValue01);
+                }
+                else if (handleType == HandleType.Max)
+                {
+                    float distancePercent = (clickPosition.x - dragStartPosition.x) / sliderBounds.rect.width;
+                    float newMaxValue01 = Mathf.Clamp(dragStartMaxValue01 + distancePercent, 0f, 1f);
+                    float newMinValue01 = Mathf.Clamp(dragStartMinValue01, 0f, newMaxValue01);
 
-				// set values
-				float min = Mathf.Lerp(minLimit, maxLimit, GetMinHandleValue01(minHandle));
-				float max = Mathf.Lerp(minLimit, maxLimit, GetMaxHandleValue01(maxHandle));
-				SetValues(min, max);
+                    SetMaxHandleValue01(maxHandle, newMaxValue01);
+                    SetMinHandleValue01(minHandle, newMinValue01);
+                }
 
-				UpdateText();
-				UpdateMiddleGraphic();
-			}
-		}
+                // Update values
+                float min = Mathf.Lerp(minLimit, maxLimit, GetMinHandleValue01(minHandle));
+                float max = Mathf.Lerp(minLimit, maxLimit, GetMaxHandleValue01(maxHandle));
+                SetValues(min, max);
 
-		public void OnEndDrag(PointerEventData eventData)
+                UpdateText();
+                UpdateMiddleGraphic();
+            }
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
 		{
 			if (passDragEvents)
 			{

@@ -164,8 +164,11 @@ namespace Min_Max_Slider
                     maxText.SetText(maxValue.ToString(textFormat));
             }
 
-            minLimitText.SetText(minLimit.ToString(textFormat));
-            maxLimitText.SetText(maxLimit.ToString(textFormat));
+            if (minLimitText)
+                minLimitText.SetText(minLimit.ToString(textFormat));
+
+            if (maxLimitText)
+                maxLimitText.SetText(maxLimit.ToString(textFormat));
         }
 
         private void UpdateMiddleGraphic()

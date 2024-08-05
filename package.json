@@ -22,9 +22,9 @@
     "displayName": "Demo",
     "description": "Demos MinMaxSlider in both Overlay and Screen Space Camera canvases",
     "path": "Example~/Demo"
-  },
+  }
+]
   "author": {
     "name": "Usef Farahmand"
   },
-]
 }

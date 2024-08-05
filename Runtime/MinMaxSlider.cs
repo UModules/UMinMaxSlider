@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Min_Max_Slider
+namespace UScreen.MinMaxSlider
 {
     [RequireComponent(typeof(RectTransform))]
     public class MinMaxSlider : Selectable, IBeginDragHandler, IDragHandler, IEndDragHandler

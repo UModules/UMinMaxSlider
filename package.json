@@ -1,6 +1,6 @@
 {
-  "name": "com.useffarahmand.minmaxslider",
-  "displayName": "Min Max Slider",
+  "name": "com.useffarahmand.uminmaxslider",
+  "displayName": "UMin Max Slider",
   "version": "2.0.0",
   "description": "Min Max Slider UI Component for Unity",
   "keywords": [
@@ -17,6 +17,9 @@
   "dependencies": {
     "com.unity.textmeshpro": "2.0.1"
   },
+  "author": {
+    "name": "Usef Farahmand"
+  },
   "samples": [
   {
     "displayName": "Demo",
@@ -24,7 +27,4 @@
     "path": "Example~/Demo"
   }
 ]
-  "author": {
-    "name": "Usef Farahmand"
-  },
 }
